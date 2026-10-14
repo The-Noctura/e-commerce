@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: ProdukDetailProps): Promise<M
 
   if (!produk) {
     return {
-      title: "Produk Tidak Ditemukan",
+      title: "E-commerce - Produk Tidak Ditemukan",
       description: "Produk yang Anda cari tidak ada",
     };
   }

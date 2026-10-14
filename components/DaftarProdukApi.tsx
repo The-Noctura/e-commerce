@@ -9,23 +9,34 @@ export default function DaftarProdukApi() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchProduk = async () => {
       try {
-        setLoading(true);
         const res = await fetch("/api/produk");
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        setProduk(data);
+        if (!cancelled) {
+          setProduk(data);
+        }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Terjadi kesalahan");
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Terjadi kesalahan");
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
     fetchProduk();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (loading) {
